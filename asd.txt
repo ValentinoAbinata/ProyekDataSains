@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns 
 
-# Debugging
+# Definisi Ulang Fungsi
 def log_transform(X):
     return np.log1p(X)
 
@@ -23,7 +23,7 @@ except Exception as e:
 st.title("Prediksi Kelangsungan Hidup Pasien Gagal Jantung")
 st.write("Masukkan data pasien untuk memprediksi risiko kematian (DEATH_EVENT).")
 
-# --- DATA DICTIONARY SECTION  ---
+# --- DATA DICTIONARY SECTION (Tampil Langsung dan Menggunakan st.table) ---
 st.markdown("---") 
 st.subheader("Data Dictionary & Rentang Normal")
 
@@ -63,23 +63,44 @@ data = {
     ]
 }
 df_dict = pd.DataFrame(data)
-st.table(df_dict)
+st.table(df_dict) # Menggunakan st.table
 
 st.markdown("---") 
+# ----------------------------------------
 
-# Form input fitur
+
+# Form input fitur dengan Peningkatan UX
 with st.form(key='input_form'):
+    # Input field menggunakan help text yang merujuk Data Dictionary
     age = st.number_input("Usia (age)", min_value=0.0, max_value=120.0, value=50.0, help="Umur pasien.")
+    
+    # UX: Menggunakan label deskriptif untuk fitur biner
     anaemia_label = st.selectbox("Anemia", ['Tidak', 'Ya'], index=0)
+    
+    # UX: Menambahkan Satuan dan Normal Range
     creatinine_phosphokinase = st.number_input("Creatinine Phosphokinase (CPK) (mcg/L)", min_value=0, value=582, help="Level enzim CPK dalam darah. Normalnya < 200 mcg/L.")
+    
     diabetes_label = st.selectbox("Diabetes", ['Tidak', 'Ya'], index=0)
+    
+    # UX: Menambahkan Satuan dan Normal Range
     ejection_fraction = st.number_input("Ejection Fraction (%)", min_value=0, max_value=100, value=40, help="Persentase darah yang dipompa keluar dari jantung. Normalnya 50%-70%.")
+    
     high_blood_pressure_label = st.selectbox("Tekanan Darah Tinggi", ['Tidak', 'Ya'], index=0)
+    
+    # UX: Menambahkan Satuan dan Normal Range
     platelets = st.number_input("Platelets (kiloplatelets/mL)", min_value=0.0, value=265000.0, help="Jumlah trombosit dalam darah. Normalnya 150.000 - 450.000 kiloplatelets/mL.")
+    
+    # UX: Menambahkan Satuan dan Normal Range
     serum_creatinine = st.number_input("Serum Creatinine (mg/dL)", min_value=0.0, value=1.0, help="Level kreatinin dalam serum darah. Normalnya 0.6 - 1.3 mg/dL.")
+    
+    # UX: Menambahkan Satuan dan Normal Range
     serum_sodium = st.number_input("Serum Sodium (mEq/L)", min_value=0, value=135, help="Level natrium dalam serum darah. Normalnya 135 - 145 mEq/L.")
+    
+    # UX: Mengubah format sex agar lebih user-friendly
     sex_label = st.selectbox("Jenis Kelamin", ['Pria', 'Wanita'], index=0) 
+    
     smoking_label = st.selectbox("Merokok", ['Tidak', 'Ya'], index=0)
+    
     submit_button = st.form_submit_button(label='Prediksi')
 
 # Konversi label string ke nilai numerik (0/1) untuk model
@@ -87,7 +108,7 @@ anaemia = 1 if anaemia_label == 'Ya' else 0
 diabetes = 1 if diabetes_label == 'Ya' else 0
 high_blood_pressure = 1 if high_blood_pressure_label == 'Ya' else 0
 smoking = 1 if smoking_label == 'Ya' else 0
-sex = 1 if sex_label == 'Pria' else 0
+sex = 1 if sex_label == 'Pria' else 0 # 1=Pria, 0=Wanita
 
 # Proses prediksi jika submit
 if submit_button:
@@ -125,7 +146,9 @@ if submit_button:
         probabilities = [1 - probability, probability]
         labels = ['Bertahan', 'Meninggal']
         
+        # Menggunakan Set2 palette dari Seaborn
         colors = sns.color_palette("Set2", 2)
+        
         fig, ax = plt.subplots()
         ax.pie(probabilities, 
                labels=labels, 
