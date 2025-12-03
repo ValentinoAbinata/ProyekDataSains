@@ -1,8 +1,16 @@
-import streamlit as st
+import os, streamlit as st
 import joblib
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+
+st.write("CWD:", os.getcwd())
+st.write("Files:", os.listdir('.'))
+try:
+    import joblib
+except Exception as e:
+    st.error("Import joblib gagal: " + str(e))
+    st.stop()
 
 # Definisi Ulang Fungsi
 def log_transform(X):
