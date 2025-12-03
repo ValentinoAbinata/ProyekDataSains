@@ -103,7 +103,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Navigasi
-tab1, tab2, tab3 = st.tabs(["Data Dictionary", "Perbandingan Model", "Prediksi"])
+tab1, tab2, tab3, tab4 = st.tabs(["Data Dictionary", "Perbandingan Model", "Prediksi", "Kesimpulan"])
 
 with tab1:
     st.markdown("### Data Dictionary & Rentang Normal")
@@ -390,6 +390,31 @@ with tab3:
 
         except Exception as e:
             st.error(f"Error saat prediksi: {str(e)}")
+
+with tab4:
+    st.markdown("### Kesimpulan Analisis Model")
+    st.markdown("""
+    #### Random Forest Classifier: Model Paling Unggul
+    
+    Random Forest Classifier tampil sebagai model paling handal dan cocok untuk prediksi dalam kasus ini.
+    
+    * **Kekuatan Memisahkan Kelas (ROC-AUC):** Dengan nilai **ROC-AUC sebesar 0.8023**, model ini paling mampu membedakan antara pasien yang bertahan hidup dan yang berisiko meninggal di antara ketiga model yang diuji.
+    * **Keseimbangan Prediksi pada Kelas Minoritas (PR-AUC):** Model ini juga unggul dalam **PR-AUC, yaitu 0.5881**, yang sangat penting mengingat fokus pada pasien dengan risiko meninggal yang jumlahnya lebih sedikit.
+    
+    #### Logistic Regression: Kinerja yang Konsisten
+
+    Logistic Regression memberikan hasil yang cukup seimbang dan stabil, khususnya pada metrik PR-AUC yang hampir menyamai Random Forest.
+
+    * **Keunggulan dalam *Recall*:** Meskipun akurasinya lebih rendah dibanding Random Forest, nilai *Recall* Logistic Regression (**0.5789**) lebih tinggi. Ini berarti model ini lebih baik dalam menemukan pasien yang sebenarnya berisiko meninggal, sehingga mengurangi kasus *false negatives*.
+
+    #### Decision Tree: Rentan Terhadap *Overfitting*
+
+    Decision Tree menunjukkan kelemahan-kelemahan yang cukup jelas:
+
+    * **ROC-AUC Paling Rendah:** Dengan skor **0.7279**, model ini paling lemah dalam membedakan antara kelas.
+    * **PR-AUC Terburuk:** Nilai **PR-AUC yang rendah, yaitu 0.5030**, menandakan prediksi positifnya kurang akurat.
+    * **Tanda *Overfitting*:** Meskipun nilai **MAE sangat rendah (0.2881)**, **R² yang negatif (-0.0971)** menunjukkan model ini terlalu rumit atau kurang mampu menggeneralisasi data baru dengan baik.
+    """)
 
 # Footer
 st.markdown("---")
