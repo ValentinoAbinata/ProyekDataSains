@@ -15,6 +15,9 @@ Notebook utama menggunakan **Python** dengan library umum seperti:
 - `pandas`  
 - `matplotlib`  
 - `seaborn`  
+- `streamlit`  
+- `scikit-learn`  
+- `joblib`  
 
 Tujuan README ini adalah untuk memudahkan proses **cloning repository**, **instalasi dependensi**, dan **menjalankan notebook (.ipynb)** sehingga analisis dapat direproduksi oleh siapa pun.
 
